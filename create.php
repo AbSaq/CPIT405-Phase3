@@ -1,11 +1,13 @@
-<!-- Add a new product -->
 <?php
 include 'db.php';
 /* @var $pdo PDO */
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    //TODO: Complete the code to handle form submission and insert a new product into the database
-    // ...
+    $name = $_POST['name'];
+    $price = $_POST['price'];
+
+    $stmt = $pdo->prepare("INSERT INTO products (name, price) VALUES (:name, :price)");
+    $stmt->execute(['name' => $name, 'price' => $price]);
 
     header("Location: index.php");
     exit();

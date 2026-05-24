@@ -1,4 +1,3 @@
-<!-- Display products -->
 <?php
 include 'db.php';
 /* @var $pdo PDO */
@@ -21,11 +20,10 @@ include 'db.php';
         <?php
         $stmt = $pdo->query("SELECT * FROM products");
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            //TODO: Replace 'DISPLAY PRICE HERE' with the actual price of the product
             echo "<tr>
                     <td>{$row['id']}</td>
-                    <td>{$row['name']}</td>
-                    <td>DISPLAY PRICE HERE</td>
+                    <td>" . htmlspecialchars($row['name']) . "</td>
+                    <td>" . number_format($row['price'], 2) . "</td>
                     <td>
                         <a href='edit.php?id={$row['id']}' class='btn btn-sm btn-warning'>Edit</a>
                         <a href='delete.php?id={$row['id']}' class='btn btn-sm btn-danger' onclick='return confirm(\"Are you sure?\")'>Delete</a>

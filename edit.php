@@ -1,18 +1,22 @@
-<!-- Edit product by ID -->
 <?php
 include 'db.php';
 /* @var $pdo PDO */
 
 $id = $_GET['id'];
 $stmt = $pdo->prepare("SELECT * FROM products WHERE id = :id");
-$stmt->bindParam(':id', $id, PDO::PARAM_INT);
-$stmt->execute();
-
+$stmt->execute(['id' => $id]);
 $product = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    //TODO: Complete the code to handle form submission and edit (update) the product in the database
-    // ...
+    $name = $_POST['name'];
+    $price = $_POST['price'];
+
+    $stmt = $pdo->prepare("UPDATE products SET name = :name, price = :price WHERE id = :id");
+    $stmt->execute([
+        'name' => $name,
+        'price' => $price,
+        'id' => $id
+    ]);
 
     header("Location: index.php");
     exit();
@@ -31,7 +35,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="mb-3">
             <label class="form-label">Name</label>
             <input type="text" name="name" class="form-control" value="<?= htmlspecialchars($product['name']) ?>" required>
-            <?php // Note: '<?=' is shorthand for '<?php echo' ?>
         </div>
         <div class="mb-3">
             <label class="form-label">Price</label>
